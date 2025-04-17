@@ -1,0 +1,69 @@
+#include<stdio.h>
+		struct processes
+		{
+    			int id;
+    			int at;
+    			int ct;
+    			int bt;
+    			int tat;
+    			int wt;
+		};
+		int main()
+		{
+    			int n,i,j,ct=0;
+    			printf("Enter the no of processes : ");
+    			scanf("%d",&n);
+    			struct processes process[n],temp;
+    			printf("\nEnter the ProcessId , Arrival Time and Burst Time : \n");
+    			for(i=0;i<n;i++)
+       				 scanf("%d%d%d",&process[i].id,&process[i].at,&process[i].bt);
+    			for(i=0;i<n-1;i++)
+    			{
+        				for(j=0;j<n-i-1;j++)
+        				{
+            				if(process[j].at>process[j+1].at)
+            				{
+                					temp=process[j];
+                					process[j]=process[j+1];
+                					process[j+1]=temp;
+            				}
+        				}
+    			}
+    			ct=process[0].at;
+    			process[0].ct=process[0].bt;
+    			process[0].tat=process[0].ct-process[0].at;
+    			process[0].wt=process[0].tat-process[0].bt;
+          for(i=1;i<n;i++)
+    			{
+        				process[i].ct=process[i].bt+process[i-1].ct;
+        				process[i].tat=process[i].ct-process[i].at;
+        				process[i].wt=process[i].tat-process[i].bt;
+    			}
+    			float sumtat=0,sumwt=0;
+    			for(i=0;i<n;i++)
+    			{
+        				sumtat+=process[i].tat;
+        				sumwt+=process[i].wt;
+    			}
+    			for(i=0;i<n-1;i++)
+    			{
+        				for(j=0;j<n-1-i;j++)
+        				{
+            				if(process[j].at>process[j+1].at)
+            				{
+                					temp=process[j];
+                					process[j]=process[j+1];
+                					process[j+1]=temp;
+            				}
+        				}
+    			}
+    			printf("\nP\tAT\tBT\tCT\tTAT\tWT\n");
+    			for(i=0;i<n;i++)
+    			{
+        				printf("%d\t%d\t%d\t%d\t%d\t%d\ n",process[i].id,process[i].ct,process[i].tat,process[i].wt);
+    
+    			}
+    			printf("\nAverage Turn Around Time : %f",(float)(sumtat/n));
+    			printf("\nWaiting Time : %f",(float)(sumwt/n));
+    			return 0;
+		}
