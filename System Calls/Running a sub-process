@@ -1,0 +1,21 @@
+#include<stdio.h>
+	#include<unistd.h>
+	#include<sys/wait.h>
+	#include<stdlib.h>
+	int main(){
+		pid_t p=fork();
+		if(p==-1){
+			printf(“Fork failed”);
+		}
+		else if(p==0){
+			printf(“Child process (pid : %d executing ls\n),getpid()”);
+			char * args[]={“ls”,NULL};
+			execvp(args[0],args);
+			perror(“Failed”);
+			exit(EXIT_FAILURE);
+		}
+		else{
+			printf(“parent process(PID : %d)\n wait for child process(PID : %d)”,getppid(),getpid());
+			wait(NULL);
+			printf(“\nParent and Child process completed”);}
+	}
