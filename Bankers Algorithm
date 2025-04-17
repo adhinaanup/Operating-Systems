@@ -1,0 +1,146 @@
+#include <stdio.h>
+      void safeseq(int n, int m, int allocation[n][m], int need[n][m], int available[m])
+	{
+    		int work[m], finish[n], safseq[n];
+    		for (int i = 0; i < m; i++)
+		{
+        		work[i] = available[i];
+    		}
+    		for (int i = 0; i < n; i++)
+		{
+        		finish[i] = 0;
+    		}
+    		int count = 0;
+    		while (count < n)
+		{
+        		int found = 0;
+        		for (int p = 0; p < n; p++)
+			{
+            			if (!finish[p])
+				{
+                				int j;
+                				for (j = 0; j < m; j++)
+					{
+                    				if (need[p][j] > work[j])
+						{
+                        					break;
+                    				}
+                				}
+                				if (j == m) {
+                    				for (int k = 0; k < m; k++) {
+                        					work[k] += allocation[p][k];
+                    				}
+                    				safseq[count++] = p;
+                    				finish[p] = 1;
+                    				found = 1;
+                				}
+                        }
+        		if (!found) 	
+			{
+         			printf("System is not in a safe state.\n");
+            			return;
+        		}
+    		}
+    		printf("System is in a safe state.\nSafe sequence is: ");
+    		for (int i = 0; i < n; i++) {
+        		printf("P%d ", safseq[i]);
+    		}
+		printf("\n");
+	}
+	int main()
+	{
+    		int n, m, i, j; // n - no of processes, m - no of resources
+    		printf("Enter the number of processes: ");
+    		scanf("%d", &n);
+    		printf("Enter the number of resources: ");
+    		scanf("%d", &m);
+    		int instance[m];
+    		for (i = 0; i < m; i++)
+		{
+        		printf("Enter the total number of instances of resource %d: ", i + 1);
+        		scanf("%d", &instance[i]);
+    		}
+    		int allocation[n][m], max[n][m], need[n][m], available[m];
+    		printf("Enter the allocation matrix:\n");
+    		for (i = 0; i < n; i++) {
+        		for (j = 0; j < m; j++) {
+            			scanf("%d", &allocation[i][j]);
+        		}
+    		}
+    		printf("Enter the max matrix representing the maximum resource instances 				needed by each process:\n");
+    		for (i = 0; i < n; i++) {
+        		for (j = 0; j < m; j++) {
+            			scanf("%d", &max[i][j]);
+        		}}
+        // Finding the available matrix
+    		for (i = 0; i < m; i++)
+		{
+        		int sum = 0;
+        		for (j = 0; j < n; j++)
+			{
+            			sum += allocation[j][i];
+        		}
+        		available[i] = instance[i] - sum;
+    		}
+    		for (i = 0; i < n; i++)
+		{
+        		for (j = 0; j < m; j++)
+			{
+           		 	need[i][j] = max[i][j] - allocation[i][j];	
+			}
+    		}
+    		printf("\n-----NEED MATRIX------\n");
+    		for (i = 0; i < n; i++)
+		{
+        		for (j = 0; j < m; j++)
+			{
+            			printf("%d ", need[i][j]);
+        		}
+        		printf("\n");
+    		}
+    		printf("\n-----AVAILABLE MATRIX------\n");
+    		for (i = 0; i < m; i++)
+		{
+        		printf("%d ", available[i]);
+    		}
+    		printf("\n");
+    		// Implementation of safety algorithm - Generation of safe sequence
+    		safeseq(n, m, allocation, need, available);
+    		// Resource Request algorithm
+    		char ch;
+    		int pno1, req[m];
+    		printf("\nDoes any of the processes want extra resources? (y/n): ");
+        scanf(" %c", &ch);
+    		if (ch == 'y') {
+        		printf("Enter the process number: ");
+        		scanf("%d", &pno1);
+        		printf("Enter the instances needed:\n");
+        		for (i = 0; i < m; i++) {
+            			scanf("%d", &req[i]);
+        	}
+        	// Check if the request can be granted
+        	int can_allocate = 1;
+        	for (i = 0; i < m; i++) {
+            		if (req[i] > need[pno1][i] || req[i] > available[i]) {
+                			can_allocate = 0;
+                			printf("The request cannot be granted.\n");
+                			break;
+            		}
+        	}
+        	if (can_allocate)
+		{
+            		// Pretend to allocate the requested resources
+            		for (i = 0; i < m; i++)
+			{            
+				available[i] -= req[i];
+                			allocation[pno1][i] += req[i];
+                			need[pno1][i] -= req[i];
+            		}
+            		// Call the safety algorithm again after resource allocation
+            		safeseq(n, m, allocation, need, available);
+        	}
+    	     }
+    	      return 0;
+	}
+
+
