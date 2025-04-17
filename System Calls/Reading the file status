@@ -1,0 +1,17 @@
+#include<stdio.h>
+	#include<sys/stat.h>
+	int main(){	
+		char filename[10];
+		struct stat filestat;
+		printf(“Enter filename : ”);
+		scanf(“%s”,filename);
+		if(stat(filename,&filestat)<0){
+			perror(“error”);
+			return 1;
+		}
+		printf(“\nfilename :%s”,filename);
+		printf(“\nSize : %lld”,filestat.st_size);
+    printf(“\nPermission : %o”,filestat.st_mod&0777);
+		printf(“\nNo of links: %ld”,filestat.st_nlink);
+	}
+
