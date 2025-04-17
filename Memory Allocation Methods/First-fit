@@ -1,0 +1,39 @@
+#include<stdio.h>
+		#include<string.h>
+		int firstfit(int b[],int m,int p[],int n){
+    			int i,j;
+    			int allocation[n];
+    			for(i=0;i<n;i++){
+        				for(j=0;j<m;j++){
+            				if(b[j]>=p[i]){
+                					allocation[i]=j;
+                					b[j]=b[j]-p[i];
+                					break;}
+            				allocation[i]=-1;}}
+    			printf("\nProcessno\tProcess size\tBlockno\n");
+    			for(i=0;i<n;i++){
+        				printf("\n%d\t\t%d\t\t",i+1,p[i]);
+        				if(allocation[i]!=-1)
+            				printf("%d\n",allocation[i]+1);
+        				else
+            				printf("Not allocated");
+    			}
+    			printf("\nFree space\n");
+    			for(i=0;i<m;i++)
+        				printf("\n%d",b[i]);
+		}
+		int main(){
+    			int m,n;
+    			printf("\nEnter the no of blocks : ");
+    			scanf("%d",&m);int b[m];
+    			printf("\nEnter the block size :\n");
+    			for(int i=0;i<m;i++)
+        				scanf("%d",&b[i]);
+    			printf("\nEnter the no of processes : ");
+    			scanf("%d",&n);int p[n];
+    			printf("\nEnter the process size:\n");
+    			for(int i=0;i<n;i++)
+        				scanf("%d",&p[i]);
+          firstfit(b,m,p,n);
+    			return 0;
+	 }
