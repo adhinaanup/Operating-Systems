@@ -1,0 +1,15 @@
+#include<stdio.h>
+	#include<unistd.h>
+	int main(){
+		pid_t q;
+		q=fork();
+		if(q<0){
+			printf(“Fork failed”);
+		}
+		else if(q==0){
+			printf(“Child process with process ID : %d\n”,getpid());
+		}
+		else{
+			printf(“\nParent process with process ID : %d\n”,getpid());
+		}
+	}
