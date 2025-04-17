@@ -1,0 +1,72 @@
+#include<stdlib.h>
+		#include<stdio.h>
+		int main(){
+    			int i,n,head,size,j,ch;
+    			printf("Enter the no of requests : ");
+    			scanf("%d",&n);
+    			int a[n];
+    			printf("Enter the current head : ");
+    			scanf("%d",&head);
+    			printf("Enter the max size : ");
+    			scanf("%d",&size);
+    			printf("Enter the requets :\n");
+    			for(i=0;i<n;i++){
+        				scanf("%d",&a[i]);
+    			}
+    			printf("Enter the direction: ");
+    			scanf("%d",&ch);
+    			for(i=0;i<n-1;i++){
+        				for(j=0;j<n-i-1;j++){
+            				if(a[j]>a[j+1]){
+                					int temp=a[j];
+                					a[j]=a[j+1];
+                					a[j+1]=temp;
+            				}
+        				}
+    			}
+    			int index,total=0;
+    			for(i=0;i<n;i++){
+        				if(head<a[i]){
+            				index=i;
+            				break;
+        				}
+    			}
+    			if(ch==1){
+        				for(i=index;i<n;i++){
+            				printf("%d->",a[i]);
+            				total+=abs(a[i]-head);
+            				head=a[i];
+                    }
+        				printf("%d",size-1);
+        				total+=abs(size-a[i-1]-1);
+        				total+=abs(size-1-0);
+        				head=0;
+        				printf("->0");
+        				for(i=0;i<index;i++){
+            				printf("->%d",a[i]);
+            				total+=abs(a[i]-head);
+            				head=a[i];
+        				}
+    			}
+    			else{
+        				for(i=index-1;i>=0;i--)
+			{
+            				printf("%d->",a[i]);
+            				total+=abs(a[i]-head);
+            				head=a[i];
+        				}
+        				printf("0->");
+        				printf("%d",size-1);
+        				total+=abs(a[i+1]-0);
+        				total+=abs(size-1-0);
+        				head=size-1; 
+        				for(i=n-1;i>=index;i--)
+			{
+            				printf("->%d",a[i]);
+            				total+=abs(a[i]-head);
+            				head=a[i];
+        				}
+    			}
+    			printf("\nTotal Head Movements : %d",total);
+		}
+
