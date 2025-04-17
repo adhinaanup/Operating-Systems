@@ -1,0 +1,47 @@
+#include <stdio.h>
+ 		void main()
+ 		{
+		printf(“\n_____FIFO PAGE REPLACEMENT ALGORITHM______\n”);
+    		int pages, frames, page[100], frame[100], i, j, k, frameindex=0, pagefault=0,  		pageexist=0;
+    		printf("Enter the no of pages:");
+    		scanf("%d",&pages);
+    		printf("Enter the page string:");
+    		for(i=0;i<pages;i++)
+    		{
+        			scanf("%d",&page[i]);
+    		}
+    		printf("Enter the no of frames:");
+    		scanf("%d",&frames);
+    		//initialisng the frames with -1
+    		for(i=0;i<frames;i++)
+    		{
+    	    		frame[i]=-1;
+    		}
+    		for(i=0;i<n;i++){
+        			pageexist=0;
+        			for(j=0;j<frames;j++)
+        			{
+                
+ 			if(frame[j]==page[i])
+            				{
+                				pageexist=1;
+                				break;
+            				}
+        	}
+        			if(pageexist==0)
+        			{
+            				frame[frameindex]=page[i];
+            				frameindex=(frameindex+1)%frames;
+            				pagefault++;
+        			}
+        			printf("Page:%d",page[i]);
+        			for(k=0;k<frames;k++)
+        			{
+            				printf("%d\t",frame[j]);
+            
+        			}
+        			printf("\n");
+    		}
+    		printf("No of page faults:%d",pagefault);
+ 	}
+  
