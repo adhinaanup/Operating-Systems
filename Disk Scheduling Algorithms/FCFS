@@ -1,0 +1,25 @@
+#include<stdio.h>
+		#include<stdlib.h>
+		int main()
+		{
+    			int n,head,size,i,total=0;
+    			printf("Enter the no of requests :");
+    			scanf("%d",&n);
+    			int p[n];
+    			printf("Enter the requests :\n");
+    			for(i=0;i<n;i++)
+    			{
+        				scanf("%d",&p[i]);
+    			}
+    			printf("Enter the current head position : ");
+    			scanf("%d",&head);
+    			printf("\n\n");
+    			for(i=0;i<n;i++)
+    			{
+        				printf("%d->",p[i]);
+        				total+=abs(p[i]-head);
+        				head=p[i];
+    			}
+    			printf("\n\nTotal Head Movements : %d",total);
+    			return 0;
+		}
